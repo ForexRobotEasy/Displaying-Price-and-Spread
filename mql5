@@ -1,0 +1,90 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                              Displaying Price and Spread                              |
+//|                                      Developed by Forex Robot Easy Team                      |
+//|                                                         forexroboteasy.com                                     |
+//+------------------------------------------------------------------+
+#property strict
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Create and display the information panel
+    CreateInformationPanel();
+
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+    // Remove the information panel from the chart
+    RemoveInformationPanel();
+}
+
+//+------------------------------------------------------------------+
+//| Create and display the information panel                         |
+//+------------------------------------------------------------------+
+void CreateInformationPanel()
+{
+    // Define the corner where the panel will be displayed
+    ENUM_CORNER corner = CORNER_RIGHT_LOWER;
+
+    // Define the position of the panel within the corner
+    int x = 10;
+    int y = 10;
+
+    // Create the panel and set its properties
+    int panel = ChartCreate();
+    ChartSetString(panel, CHART_COMMENT, 'Price and Spread Information');
+    ChartSetInteger(panel, CHART_POSITION_CORNER, corner);
+    ChartSetInteger(panel, CHART_POSITION_XDISTANCE, x);
+    ChartSetInteger(panel, CHART_POSITION_YDISTANCE, y);
+
+    // Add labels to display the required information
+    ChartAddInteger(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+    ChartAddDouble(panel, 0, '');
+
+    // Customize the color of the text
+    ChartSetInteger(panel, CHART_COLOR_BACKGROUND, clrWhite);
+    ChartSetInteger(panel, CHART_COLOR_FOREGROUND, clrBlack);
+}
+
+//+------------------------------------------------------------------+
+//| Remove the information panel from the chart                      |
+//+------------------------------------------------------------------+
+void RemoveInformationPanel()
+{
+    // Remove the panel from the chart
+    ChartDelete(0);
+}
+
+//+------------------------------------------------------------------+
+//| Expert tick function                                             |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    // Update the displayed information with real-time price and spread data
+    ChartSetDouble(0, 1, SymbolInfoDouble(_Symbol, SYMBOL_BID));
+    ChartSetDouble(0, 2, SymbolInfoDouble(_Symbol, SYMBOL_ASK));
+    ChartSetDouble(0, 3, SymbolInfoDouble(_Symbol, SYMBOL_HIGH));
+    ChartSetDouble(0, 4, SymbolInfoDouble(_Symbol, SYMBOL_LOW));
+    ChartSetDouble(0, 5, SymbolInfoDouble(_Symbol, SYMBOL_VOLUME));
+    ChartSetDouble(0, 6, SymbolInfoDouble(_Symbol, SYMBOL_TIME));
+    ChartSetDouble(0, 7, SymbolInfoDouble(_Symbol, SYMBOL_SPREAD));
+    ChartSetDouble(0, 8, SymbolInfoDouble(_Symbol, SYMBOL_TRADE_STOPS_LEVEL));
+    ChartSetDouble(0, 9, SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE));
+}
+
